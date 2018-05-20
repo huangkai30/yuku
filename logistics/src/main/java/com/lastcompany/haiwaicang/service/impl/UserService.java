@@ -2,7 +2,7 @@ package com.lastcompany.haiwaicang.service.impl;
 
 import com.lastcompany.haiwaicang.dao.IUserDao;
 import com.lastcompany.haiwaicang.entity.User;
-import com.lastcompany.haiwaicang.service.IHouseService;
+
 import com.lastcompany.haiwaicang.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
