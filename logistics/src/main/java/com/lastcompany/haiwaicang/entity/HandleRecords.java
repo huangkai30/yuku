@@ -12,20 +12,29 @@ import java.util.Date;
 @Entity
 
 
-@Table(name = "user",indexes = {@Index(name="id",columnList = "id",unique = true)})
+@Table(name = "handle_records",indexes = {@Index(name="id",columnList = "id",unique = true)})
 
-public class User implements Serializable {
+public class HandleRecords implements Serializable {
 
     @Id
 //    @GeneratedValue(strategy=GenerationType.AUTO)
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="user_name")
-    private String userName;
-    @Column(name="pass_word")
-    private String passWord;
 
+
+    @Column(name="userId")// 操作人的id
+    private int userId;
+
+    @Column(name="userName")// 操作人名称
+    private int userName;
+
+    @Column(name="type")//操作类型，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息
+    private String type;
+
+
+    @Column(name="description")//描述
+    private String description;
 
     @Column(name="dateCreated")
     @CreatedDate
@@ -35,30 +44,36 @@ public class User implements Serializable {
     @LastModifiedDate
     private Date dateModified;
 
-
     public int getId() {
         return id;
     }
-
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getType() {
+        return type;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getDateCreated() {
