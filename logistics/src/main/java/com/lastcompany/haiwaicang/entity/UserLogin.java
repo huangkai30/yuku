@@ -27,9 +27,9 @@ public class UserLogin implements Serializable {
     private int userId;
 
     @Column(name="userName")// 登陆人名称
-    private int userName;
+    private String userName;
 
-    @Column(name="type")//操作类型，用户登陆，2后台登陆
+    @Column(name="type")//操作类型，1用户登陆，2后台登陆
     private String type;
 
 
@@ -60,11 +60,11 @@ public class UserLogin implements Serializable {
         this.userId = userId;
     }
 
-    public int getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(int userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 

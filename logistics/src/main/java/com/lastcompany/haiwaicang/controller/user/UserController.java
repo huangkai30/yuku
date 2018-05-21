@@ -2,7 +2,10 @@ package com.lastcompany.haiwaicang.controller.user;
 
 
 import com.lastcompany.haiwaicang.entity.User;
+import com.lastcompany.haiwaicang.entity.UserLogin;
+import com.lastcompany.haiwaicang.service.IUserLoginService;
 import com.lastcompany.haiwaicang.service.IUserService;
+import com.lastcompany.haiwaicang.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import com.lastcompany.haiwaicang.constant.*;
 
+import java.util.Date;
+
 
 @RestController
 @RequestMapping("user")
@@ -18,6 +23,9 @@ public class UserController {
 //    //    private final Logger logger = Logger.getLogger(HouseController.class);
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IUserLoginService userLoginService;
 ////    @Autowired
 ////    private IHouseLoginLogService houseLoginLogService;
 ////    @Autowired
@@ -95,6 +103,15 @@ public class UserController {
 //            memberLoginLogService.add(log);
             result.setMsgCode(ErrorCode.SUCCESS_CODE);
             session.setAttribute(Constant.SESSION_MEMBER_USERID, user.getId());
+            session.setAttribute(Constant.SESSION_MEMBER_USERNAME, user.getUserName());
+            UserLogin userLogin=new UserLogin();
+            userLogin.setUserId(user.getId());
+            userLogin.setUserName(user.getUserName());
+            userLogin.setType(Constant.LOGIN_TYPE_USER);
+            Date date=new Date();
+            userLogin.setDateCreated(date);
+            userLogin.setDateModified(date);
+            userLoginService.add(userLogin);
 //            session.setAttribute(Constant.SESSION_MEMBER_PHONE, member.getMobileCountryCode1()+member.getMobile1());
 //            session.setAttribute(Constant.SESSION_MEMBER_EMAIL, member.getEmail());
 //            session.setAttribute(Constant.LOGIN_ACCOUNT_TYPE, 2);
@@ -116,6 +133,9 @@ public class UserController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public Object logout(HttpSession session) {
         session.removeAttribute(Constant.SESSION_MEMBER_USERID);
+        session.removeAttribute(Constant.SESSION_MEMBER_USERNAME);
+
+
         session.removeAttribute(Constant.SESSION_MEMBER_PHONE);
         session.removeAttribute(Constant.SESSION_MEMBER_EMAIL);
         session.removeAttribute(Constant.LOGIN_ACCOUNT_TYPE);

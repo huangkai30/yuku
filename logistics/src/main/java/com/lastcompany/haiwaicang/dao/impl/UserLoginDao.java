@@ -1,8 +1,7 @@
 package com.lastcompany.haiwaicang.dao.impl;
 
-import com.lastcompany.haiwaicang.dao.IHandleRecordsDao;
-import com.lastcompany.haiwaicang.entity.HandleRecords;
-import com.lastcompany.haiwaicang.entity.User;
+import com.lastcompany.haiwaicang.dao.IUserLoginDao;
+import com.lastcompany.haiwaicang.entity.UserLogin;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,30 +11,30 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class HandleRecordsDao implements IHandleRecordsDao {
+public class UserLoginDao implements IUserLoginDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
-	public HandleRecords getById(int id) {
-		return entityManager.find(HandleRecords.class, id);
+	public UserLogin getById(int id) {
+		return entityManager.find(UserLogin.class, id);
 	}
 
 	@Override
-	public int add(HandleRecords records) {
-		entityManager.persist(records);
+	public int add(UserLogin userLogin) {
+		entityManager.persist(userLogin);
 		return 1;
 	}
 	@Override
-	public int update(HandleRecords records) {
-		HandleRecords re = getById(records.getId());
+	public int update(UserLogin userLogin) {
+		UserLogin re = getById(userLogin.getId());
 		if(re==null)
 		{
 			return 0;
 		}
 		else
 		{
-			re=records;
+			re=userLogin;
 			entityManager.flush();
 			return 1;
 		}
@@ -45,7 +44,7 @@ public class HandleRecordsDao implements IHandleRecordsDao {
 	@Override
 	public int delete(int id) {
 
-		HandleRecords re = getById(id);
+		UserLogin re = getById(id);
 		if(re==null)
 		{
 			return 0;
@@ -61,12 +60,12 @@ public class HandleRecordsDao implements IHandleRecordsDao {
 
 
 	@Override
-	public List<HandleRecords> search(String id, String keyword,String rows, String page,String sidx,String sord) {
+	public List<UserLogin> search(String id, String keyword,String rows, String page,String sidx,String sord) {
 		String hql ="";
-		List<HandleRecords> list=null;
+		List<UserLogin> list=null;
 		if(id!=null&&id!="")
 		{
-			hql = "FROM HandleRecords as ha WHERE ha.id = :id";
+			hql = "FROM UserLogin as ha WHERE ha.id = :id";
 			list = entityManager.createQuery(hql).setParameter("id", id).getResultList();
 		}
 		else
@@ -81,7 +80,7 @@ public class HandleRecordsDao implements IHandleRecordsDao {
 			{
 				keyword="%";
 			}
-			hql="FROM HandleRecords as ha WHERE ha.userName = :keyword or ha.description = :keyword order by :sidx :sord limit :page, :rows";
+			hql="FROM UserLogin as ha WHERE ha.userName = :keyword or ha.description = :keyword order by :sidx :sord limit :page, :rows";
 			list = entityManager.createQuery(hql).setParameter("keyword", keyword).setParameter("sidx", sidx).setParameter("sord", sord).setParameter("page", page).setParameter("rows", rows).getResultList();
 		}
 

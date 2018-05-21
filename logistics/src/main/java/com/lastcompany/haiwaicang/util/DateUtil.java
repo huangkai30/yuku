@@ -57,5 +57,15 @@ public class DateUtil {
 		return calendar2.getTime();
 
 	}
+
+
+	public static String getnewDate()
+	{
+		Date date=new Date();
+		SimpleDateFormat df=new SimpleDateFormat(DATE_FORMAT_PATTERN);
+		String time=df.format(date);
+		return time;
+	}
+
 }
 

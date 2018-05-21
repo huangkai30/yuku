@@ -17,6 +17,8 @@ public class Constant {
 
 	//member constant
 	public static final String SESSION_MEMBER_USERID = "session_member_user_id";
+	public static final String SESSION_MEMBER_USERNAME = "session_member_user_name";
+
 	public static final String SESSION_MEMBER_PHONE = "session_member_phone";//用户的电话
 	public static final String SESSION_MEMBER_EMAIL= "session_member_email";//用户的邮箱
 	public static final String SECURITY_CODE_NEED_NUM_RECORD_MEMBER ="security_code_need_num_recode_member";//记录用户登次数，超过一定值必须输入验证码
@@ -70,7 +72,11 @@ public class Constant {
 	/**未授权*/
 	public static final String NO_AUTHORITY = "-2";
 
-	
+	//操作类型，1用户登陆，2后台登陆
+	public static final String LOGIN_TYPE_USER="1";
+	public static final String LOGIN_TYPE_ADMIN="2";
+
+
 	/**整个应用0表示否*/
 	public static final int NO = 0;
 	/**整个应用1表示是*/

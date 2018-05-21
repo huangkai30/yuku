@@ -15,13 +15,7 @@ public class UserDao implements IUserDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-//	@Override
-//	public boolean articleExists(String title, String category) {
-//		String hql = "FROM Article as atcl WHERE atcl.title = ? and atcl.category = ?";
-//		int count = entityManager.createQuery(hql).setParameter(1, title)
-//		              .setParameter(2, category).getResultList().size();
-//		return count > 0 ? true : false;
-//	}
+
 	@Override
 	public User getUserbyUserName(String userName)
 	{
@@ -41,7 +35,86 @@ public class UserDao implements IUserDao {
 			return null;
 		}
 
-//		User user =new User();
-//		return (User)user;
+
 	}
+
+
+	@Override
+	public User getById(int id) {
+		return entityManager.find(User.class, id);
+	}
+
+	@Override
+	public int add(User user) {
+		entityManager.persist(user);
+		return 1;
+	}
+	@Override
+	public int update(User user) {
+		User re = getById(user.getId());
+		if(re==null)
+		{
+			return 0;
+		}
+		else
+		{
+			re=user;
+			entityManager.flush();
+			return 1;
+		}
+	}
+
+
+	@Override
+	public int delete(int id) {
+
+		User re = getById(id);
+		if(re==null)
+		{
+			return 0;
+		}
+		else
+		{
+			entityManager.remove(re);
+			return 1;
+		}
+
+	}
+
+
+
+	@Override
+	public List<User> search(String id, String keyword,String rows, String page,String sidx,String sord) {
+		String hql ="";
+		List<User> list=null;
+		if(id!=null&&id!="")
+		{
+			hql = "FROM User as ha WHERE ha.id = :id";
+			list = entityManager.createQuery(hql).setParameter("id", id).getResultList();
+		}
+		else
+		{
+			hql = "";
+			if(keyword!=null&&keyword!="")
+			{
+				keyword="%"+keyword+"%";
+
+			}
+			else
+			{
+				keyword="%";
+			}
+			hql="FROM User as ha WHERE ha.name = :keyword or ha.brand = :keyword or ha.description = :keyword order by :sidx :sord limit :page, :rows";
+			list = entityManager.createQuery(hql).setParameter("keyword", keyword).setParameter("sidx", sidx).setParameter("sord", sord).setParameter("page", page).setParameter("rows", rows).getResultList();
+		}
+
+
+
+		return list;
+
+	}
+
+
+
+
 }
