@@ -32,54 +32,31 @@ public class UserController {
 
     @Autowired
     private IHandleRecordsService handleRecordsService;
-//////    @Autowired
-////    private IHouseLoginLogService houseLoginLogService;
-////    @Autowired
-////    DefaultKaptcha defaultKaptcha;
-////    @Value("${house.head.image}")
-////    private String HOUSE_HEAD_IMAGE;
+
+    @RequestMapping(value = "/self", method = RequestMethod.POST)
+    public Object self(HttpServletRequest request, HttpSession session) {
+        Result result = new Result();
+        try {
+
+
+            User user = userService.getById(Integer.parseInt(session.getAttribute(Constant.SESSION_MEMBER_USERID).toString()));
+            result.setData(user);
 //
-//
-//    //添加子账户
-//    @RequestMapping(value = "/test", method = RequestMethod.GET)
-//    public Object addsubhouse(HttpSession session) {
-//        return "test....";
-//    }
-//    //添加子账户
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public Object addsubhouselogin(HttpSession session) {
-//        int a=houseService.login("","");
-//        return "test login...."+a;
-//
-//    }
-//
-//    //添加子账户
-//    @RequestMapping(value = "/adduser", method = RequestMethod.GET)
-//    public Object adduser(HttpSession session) {
-//        houseService.saveUser();
-//        return "already added";
-//
-//    }
-//
-//    //添加子账户
-//    @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
-//    public Object getUserById(HttpSession session) {
-//        int id=1;
-//        Person user= houseService.getUserById(id);
-//        // getUserById(Long id);
-//        return "already added";
-//
-//    }
-//
-//    //添加子账户
-//    @RequestMapping(value = "/getUserByName", method = RequestMethod.GET)
-//    public Object getUserByName(HttpSession session) {
-//        int id=1;
-//        Person user= houseService.getUserByName("name1");
-//        // getUserById(Long id);
-//        return "already added";
-//
-//    }
+
+        } catch (ErrorMessageException e) {
+            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+            result.setMsg(e.getMessage());
+            //  setSecurityCodeNumberAll(result,session);
+            // logger.error(e);
+        } catch (Exception e) {
+            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+            result.setMsg(ErrorMessage.SYSTEM_ERROR);
+            // setSecurityCodeNumberAll(result,session);
+            //   logger.error(e);
+        }
+        result.setMsgCode(ErrorCode.SUCCESS_CODE);
+        return result;
+    }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -133,6 +110,7 @@ public class UserController {
            // setSecurityCodeNumberAll(result,session);
          //   logger.error(e);
         }
+        result.setMsgCode(ErrorCode.SUCCESS_CODE);
         return result;
     }
 
@@ -147,21 +125,31 @@ public class UserController {
 
               if(user!=null)
               {
-                  HandleRecords records=new HandleRecords();
-                  records.setDescription("reset password : "+session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
-                  records.setType(Constant.HANDLE_RECORDS_TYPE_5);
-                  records.setUserId(user.getId());
+                  user=userService.resetpw(user.getId(),old_password,password);
+                  if(user==null)
+                  {
+                      result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+                  }
+                  else
+                  {
+                      HandleRecords records=new HandleRecords();
+                      records.setDescription("reset password : "+session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
+                      records.setType(Constant.HANDLE_RECORDS_TYPE_5);
+                      records.setUserId(user.getId());
 
-                  Date date=new Date();
-                  records.setDateCreated(date);
-                  records.setDateModified(date);
+                      Date date=new Date();
+                      records.setDateCreated(date);
+                      records.setDateModified(date);
 
-                  handleRecordsService.add(records);
+                      handleRecordsService.add(records);
+                  }
+
+
               }
               else
               {
                   result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
-                  result.setMsg(e.getMessage());
+                 // result.setMsg(e.getMessage());
               }
 
 
@@ -180,6 +168,7 @@ public class UserController {
             // setSecurityCodeNumberAll(result,session);
             //   logger.error(e);
         }
+        result.setMsgCode(ErrorCode.SUCCESS_CODE);
         return result;
     }
 

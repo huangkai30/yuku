@@ -58,7 +58,8 @@ public class UserDao implements IUserDao {
 		}
 		else
 		{
-			re=user;
+			re.setPassWord(user.getPassWord());
+			re.setUserName(user.getUserName());
 			entityManager.flush();
 			return 1;
 		}

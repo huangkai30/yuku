@@ -10,7 +10,7 @@ import java.util.List;
 public interface IUserService {
     User login(String userName, String password);
 
-    User resetpw(String old_password, String password);
+    User resetpw(int id,String old_password, String password);
 
 
     User getById(int id);

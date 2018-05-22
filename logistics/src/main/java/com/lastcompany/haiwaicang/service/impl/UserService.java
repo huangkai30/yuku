@@ -12,6 +12,7 @@ import com.lastcompany.haiwaicang.constant.*;
 import com.lastcompany.haiwaicang.util.*;
 
 import java.util.List;
+import java.util.Date;
 
 
 @Service
@@ -42,7 +43,12 @@ public class UserService implements IUserService {
 
     public User getById(int id)
     {
-        return  userDao.getById(id);
+        User user=userDao.getById(id);
+        if(user!=null)
+        {
+            user.setPassWord("");
+        }
+        return  user;
     }
 
 
@@ -90,4 +96,26 @@ public class UserService implements IUserService {
     }
 
 
+    public User resetpw(int id,String old_password, String password)
+    {
+        User user=userDao.getById(id);
+        if(user==null)
+        {
+            throw new ErrorMessageException(ErrorMessage.SYSTEM_ERROR);
+        }
+        if (!MD5.md5(old_password).equals(user.getPassWord())) {
+            throw new ErrorMessageException(ErrorMessage.Member.PASSWORD_ERROR);
+        }
+        user.setPassWord(MD5.md5(password));
+        user.setDateModified(new Date());
+        int i=userDao.update(user);
+        if(i>0)
+        {}
+        else
+        {
+            return null;
+        }
+
+        return user;
+    }
 }
