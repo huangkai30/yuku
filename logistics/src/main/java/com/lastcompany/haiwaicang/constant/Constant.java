@@ -26,6 +26,17 @@ public class Constant {
 	public static final String KAPTCHA_SESSION_MEMBER_KEY = "kaptcha_session_member_key";
 
 
+
+
+	//操作类型，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息,5修改用户密码
+	public static final String HANDLE_RECORDS_TYPE_1="1";//
+	public static final String HANDLE_RECORDS_TYPE_2="2";//
+	public static final String HANDLE_RECORDS_TYPE_3="3";//
+	public static final String HANDLE_RECORDS_TYPE_4="4";//
+	public static final String HANDLE_RECORDS_TYPE_5="5";//
+
+
+
 	//house constant
 	public static final String SESSION_HOUSE_USERID = "session_house_user_id";//userID
 	public static final String SESSION_SUBHOUSE_USERID = "session_subhouse_user_id";//subhouseID

@@ -1,8 +1,11 @@
 package com.lastcompany.haiwaicang.controller.user;
 
 
+import com.lastcompany.haiwaicang.dao.IHandleRecordsDao;
+import com.lastcompany.haiwaicang.entity.HandleRecords;
 import com.lastcompany.haiwaicang.entity.User;
 import com.lastcompany.haiwaicang.entity.UserLogin;
+import com.lastcompany.haiwaicang.service.IHandleRecordsService;
 import com.lastcompany.haiwaicang.service.IUserLoginService;
 import com.lastcompany.haiwaicang.service.IUserService;
 import com.lastcompany.haiwaicang.util.DateUtil;
@@ -26,7 +29,10 @@ public class UserController {
 
     @Autowired
     private IUserLoginService userLoginService;
-////    @Autowired
+
+    @Autowired
+    private IHandleRecordsService handleRecordsService;
+//////    @Autowired
 ////    private IHouseLoginLogService houseLoginLogService;
 ////    @Autowired
 ////    DefaultKaptcha defaultKaptcha;
@@ -126,6 +132,53 @@ public class UserController {
             result.setMsg(ErrorMessage.SYSTEM_ERROR);
            // setSecurityCodeNumberAll(result,session);
          //   logger.error(e);
+        }
+        return result;
+    }
+
+
+
+    @RequestMapping(value = "/reset_pw", method = RequestMethod.POST)
+    public Object reset_pw(HttpServletRequest request, HttpSession session, @RequestParam(value = "password") String password,
+                        @RequestParam(value = "old_password") String old_password) {
+        Result result = new Result();
+        try {
+            User user = userService.getById(Integer.valueOf(session.getAttribute(Constant.SESSION_MEMBER_USERID).toString()));
+
+              if(user!=null)
+              {
+                  HandleRecords records=new HandleRecords();
+                  records.setDescription("reset password : "+session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
+                  records.setType(Constant.HANDLE_RECORDS_TYPE_5);
+                  records.setUserId(user.getId());
+
+                  Date date=new Date();
+                  records.setDateCreated(date);
+                  records.setDateModified(date);
+
+                  handleRecordsService.add(records);
+              }
+              else
+              {
+                  result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+                  result.setMsg(e.getMessage());
+              }
+
+
+
+
+
+
+        } catch (ErrorMessageException e) {
+            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+            result.setMsg(e.getMessage());
+            //  setSecurityCodeNumberAll(result,session);
+            // logger.error(e);
+        } catch (Exception e) {
+            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+            result.setMsg(ErrorMessage.SYSTEM_ERROR);
+            // setSecurityCodeNumberAll(result,session);
+            //   logger.error(e);
         }
         return result;
     }

@@ -2,12 +2,13 @@ package com.lastcompany.haiwaicang.dao.impl;
 
 import com.lastcompany.haiwaicang.dao.IHandleRecordsDao;
 import com.lastcompany.haiwaicang.entity.HandleRecords;
-import com.lastcompany.haiwaicang.entity.User;
+//import com.lastcompany.haiwaicang.entity.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -63,7 +64,7 @@ public class HandleRecordsDao implements IHandleRecordsDao {
 	@Override
 	public List<HandleRecords> search(String id, String keyword,String rows, String page,String sidx,String sord) {
 		String hql ="";
-		List<HandleRecords> list=null;
+		List<HandleRecords> list=new ArrayList<HandleRecords>();
 		if(id!=null&&id!="")
 		{
 			hql = "FROM HandleRecords as ha WHERE ha.id = :id";

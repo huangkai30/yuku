@@ -29,7 +29,7 @@ public class HandleRecords implements Serializable {
     @Column(name="userName")// 操作人名称
     private int userName;
 
-    @Column(name="type")//操作类型，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息
+    @Column(name="type")//操作类型，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息,5修改用户密码
     private String type;
 
 
