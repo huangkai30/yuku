@@ -60,6 +60,7 @@ public class HandleRecordsController {
                 result.setMsg(e.getMessage());
             } catch (Exception e) {
 
+
                 result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
                 result.setMsg(ErrorMessage.SYSTEM_ERROR);
             }
