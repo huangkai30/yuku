@@ -55,6 +55,8 @@ public class UserService implements IUserService {
 
     public int add(User user)
     {
+        user.setDateCreated(new Date());
+        user.setDateModified(new Date());
         int i=userDao.add(user);
         if(i>0)
         {

@@ -11,6 +11,7 @@ import com.lastcompany.haiwaicang.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,6 +31,8 @@ public class ProductService implements IProductService {
 
     public int add(Product product)
     {
+        product.setDateCreated(new Date());
+        product.setDateModified(new Date());
         int i=productDao.add(product);
         if(i>0)
         {

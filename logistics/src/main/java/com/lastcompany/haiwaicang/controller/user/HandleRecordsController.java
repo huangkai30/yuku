@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -97,12 +98,15 @@ public class HandleRecordsController {
 
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Object delete(HttpServletRequest request, @RequestParam(value = "ids[]") List<String> ids, BindingResult bindingResult){
+    public Object delete(HttpServletRequest request, @RequestParam(value = "ids[]") List<String> ids){
+
+
+
         Result result = new Result();
-        if (bindingResult.hasErrors()) {
-            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
-            result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
-        } else {
+        try{
+
+//            List<String> ids=new ArrayList<>();
+//            ids.add(id);
             try {
               if(ids!=null&&ids.size()>0)
               {
@@ -110,7 +114,9 @@ public class HandleRecordsController {
                   {
                       handleRecordsService.delete(Integer.parseInt(ids.get(i)));
                   }
+                  result.setMsgCode(ErrorCode.SUCCESS_CODE);
               }
+
             } catch (ErrorMessageException e) {
                 result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
                 result.setMsg(e.getMessage());
@@ -119,18 +125,26 @@ public class HandleRecordsController {
                 result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
                 result.setMsg(ErrorMessage.SYSTEM_ERROR);
             }
-        }
-        result.setMsgCode(ErrorCode.SUCCESS_CODE);
+
+    } catch (ErrorMessageException e) {
+        result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+        result.setMsg(e.getMessage());
+        //  setSecurityCodeNumberAll(result,session);
+        // logger.error(e);
+    } catch (Exception e) {
+        result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+        result.setMsg(ErrorMessage.SYSTEM_ERROR);
+        // setSecurityCodeNumberAll(result,session);
+        //   logger.error(e);
+    }
+
         return result;
     }
 
     @RequestMapping(value = "/getbyid", method = RequestMethod.POST)
-    public Object getbyid(HttpServletRequest request, @RequestParam(value = "id") int id, BindingResult bindingResult){
+    public Object getbyid(HttpServletRequest request, @RequestParam(value = "id") int id){
         Result result = new Result();
-        if (bindingResult.hasErrors()) {
-            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
-            result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
-        } else {
+
             try {
                HandleRecords re= handleRecordsService.getById(id);
                 if(re==null)
@@ -151,9 +165,43 @@ public class HandleRecordsController {
                 result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
                 result.setMsg(ErrorMessage.SYSTEM_ERROR);
             }
-        }
+
 
         return result;
     }
 
+
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public Object search(HttpServletRequest request, @RequestParam(value = "id", required=false) String id,
+                         @RequestParam(value = "keyword", required=false) String keyword,
+                         @RequestParam(value = "rows", required=false,defaultValue="10") String rows,
+                         @RequestParam(value = "page", required=false,defaultValue="1") String page,
+                         @RequestParam(value = "sidx", required=false) String sidx,
+                         @RequestParam(value = "sord") String sord,
+                         BindingResult bindingResult){
+        Result result = new Result();
+        if (bindingResult.hasErrors()) {
+            result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+            result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        } else {
+            try {
+                List<HandleRecords> records= handleRecordsService.search(id,keyword,rows,page,sidx,sord);
+                result.setMsgCode(ErrorCode.SUCCESS_CODE);
+                result.setData(records);
+
+            } catch (ErrorMessageException e) {
+                result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+                result.setMsg(e.getMessage());
+            } catch (Exception e) {
+
+                result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
+                result.setMsg(ErrorMessage.SYSTEM_ERROR);
+            }
+        }
+
+        return result;
+    }
 }
+
+
