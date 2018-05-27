@@ -1,5 +1,7 @@
 package com.lastcompany.haiwaicang.util;
 
+import com.lastcompany.haiwaicang.entity.SearchObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,4 +33,26 @@ public class CommonUtil {
         }
         return json.toString();
     }
+
+    //totalnum当前的总页数，page实际请求的第几页，rows每页的数量
+    public static SearchObject fit_search(int totalnum, int page,int rows)
+    {
+        SearchObject obj=new SearchObject();
+        obj.setTotalnum(totalnum);
+        obj.setCurpage(page);
+        obj.setRequest_rows(rows);
+        int totalpage=0;
+        if(totalnum%rows==0)
+        {
+            totalpage=(int)(totalnum/rows);
+        }
+        else
+        {
+            totalpage=(int)(totalnum/rows)+1;
+        }
+        obj.setTotalpage(totalpage);
+
+       return obj;
+    }
+
 }

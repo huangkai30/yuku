@@ -1,5 +1,6 @@
 package com.lastcompany.haiwaicang.service;
 
+import com.lastcompany.haiwaicang.entity.SearchObject;
 import com.lastcompany.haiwaicang.entity.User;
 import com.lastcompany.haiwaicang.entity.UserLogin;
 
@@ -16,6 +17,6 @@ public interface IUserLoginService {
     int add(UserLogin userLogin);
     int update(UserLogin userLogin);
     int delete(int id);
-    public List<UserLogin> search(String id, String keyword, String rows, String page, String sidx, String sord);
+    public SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord);
 
 }

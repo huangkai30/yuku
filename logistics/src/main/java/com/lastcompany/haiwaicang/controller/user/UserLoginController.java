@@ -1,31 +1,27 @@
 package com.lastcompany.haiwaicang.controller.user;
 
 
-import com.lastcompany.haiwaicang.constant.*;
+import com.lastcompany.haiwaicang.constant.ErrorCode;
+import com.lastcompany.haiwaicang.constant.ErrorMessage;
+import com.lastcompany.haiwaicang.constant.ErrorMessageException;
+import com.lastcompany.haiwaicang.constant.Result;
 import com.lastcompany.haiwaicang.entity.HandleRecords;
 import com.lastcompany.haiwaicang.entity.SearchObject;
-import com.lastcompany.haiwaicang.entity.User;
 import com.lastcompany.haiwaicang.entity.UserLogin;
 import com.lastcompany.haiwaicang.service.IHandleRecordsService;
 import com.lastcompany.haiwaicang.service.IUserLoginService;
 import com.lastcompany.haiwaicang.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("user/handle_records")
-public class HandleRecordsController {
+@RequestMapping("user/userLogin")
+public class UserLoginController {
 //    //    private final Logger logger = Logger.getLogger(HouseController.class);
     @Autowired
     private IUserService userService;
@@ -33,21 +29,21 @@ public class HandleRecordsController {
     @Autowired
     private IUserLoginService userLoginService;
 
-    @Autowired
-    private IHandleRecordsService handleRecordsService;
+//    @Autowired
+//    private IHandleRecordsService handleRecordsService;
 
 
 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object add(HttpServletRequest request,@RequestBody HandleRecords handleRecords, BindingResult bindingResult){
+    public Object add(HttpServletRequest request, @RequestBody UserLogin userLogin, BindingResult bindingResult){
         Result result = new Result();
         if (bindingResult.hasErrors()) {
             result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
             result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
         } else {
             try {
-              int i=   handleRecordsService.add(handleRecords);
+              int i=   userLoginService.add(userLogin);
               if(i==0)
               {
                   result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
@@ -70,14 +66,14 @@ public class HandleRecordsController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Object update(HttpServletRequest request,@RequestBody HandleRecords handleRecords, BindingResult bindingResult){
+    public Object update(HttpServletRequest request,@RequestBody UserLogin userLogin, BindingResult bindingResult){
         Result result = new Result();
         if (bindingResult.hasErrors()) {
             result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
             result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
         } else {
             try {
-                int i=   handleRecordsService.update(handleRecords);
+                int i=   userLoginService.update(userLogin);
                 if(i==0)
                 {
                     result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
@@ -114,7 +110,7 @@ public class HandleRecordsController {
               {
                   for(int i=0;i<ids.size();i++)
                   {
-                      handleRecordsService.delete(Integer.parseInt(ids.get(i)));
+                      userLoginService.delete(Integer.parseInt(ids.get(i)));
                   }
                   result.setMsgCode(ErrorCode.SUCCESS_CODE);
               }
@@ -148,7 +144,7 @@ public class HandleRecordsController {
         Result result = new Result();
 
             try {
-               HandleRecords re= handleRecordsService.getById(id);
+               UserLogin re= userLoginService.getById(id);
                 if(re==null)
                 {
                     result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
@@ -184,7 +180,7 @@ public class HandleRecordsController {
         Result result = new Result();
 
             try {
-                SearchObject records= handleRecordsService.search(id,keyword,rows,page,sidx,sord);
+                SearchObject records= userLoginService.search(id,keyword,rows,page,sidx,sord);
 
                 result.setMsgCode(ErrorCode.SUCCESS_CODE);
                 result.setData(records);

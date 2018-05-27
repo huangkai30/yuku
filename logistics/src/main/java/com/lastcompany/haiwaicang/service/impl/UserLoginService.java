@@ -3,6 +3,7 @@ package com.lastcompany.haiwaicang.service.impl;
 import com.lastcompany.haiwaicang.constant.ErrorMessage;
 import com.lastcompany.haiwaicang.constant.ErrorMessageException;
 import com.lastcompany.haiwaicang.dao.IUserLoginDao;
+import com.lastcompany.haiwaicang.entity.SearchObject;
 import com.lastcompany.haiwaicang.entity.User;
 import com.lastcompany.haiwaicang.entity.UserLogin;
 import com.lastcompany.haiwaicang.service.IUserLoginService;
@@ -66,9 +67,9 @@ public class UserLoginService implements IUserLoginService {
             throw new ErrorMessageException(ErrorMessage.SYSTEM_ERROR);
         }
     }
-    public List<UserLogin> search(String id, String keyword, String rows, String page, String sidx, String sord)
+    public SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord)
     {
-        List<UserLogin> list=userLoginDao.search( id,  keyword,  rows,  page,  sidx,  sord);
+        SearchObject list=userLoginDao.search( id,  keyword,  rows,  page,  sidx,  sord);
         return list;
     }
 

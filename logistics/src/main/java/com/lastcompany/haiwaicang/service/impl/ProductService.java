@@ -5,6 +5,7 @@ import com.lastcompany.haiwaicang.constant.ErrorMessageException;
 import com.lastcompany.haiwaicang.dao.IProductDao;
 import com.lastcompany.haiwaicang.dao.IUserLoginDao;
 import com.lastcompany.haiwaicang.entity.Product;
+import com.lastcompany.haiwaicang.entity.SearchObject;
 import com.lastcompany.haiwaicang.entity.UserLogin;
 import com.lastcompany.haiwaicang.service.IProductService;
 //import com.lastcompany.haiwaicang.service.IProductService;
@@ -31,6 +32,15 @@ public class ProductService implements IProductService {
 
     public int add(Product product)
     {
+
+        if(product.getSku()==null)
+        {
+            throw new ErrorMessageException("Sku can not be empty.");
+        }
+        else if(productDao.existsku(product.getSku()))
+        {
+            throw new ErrorMessageException("Sku already exist.");
+        }
         product.setDateCreated(new Date());
         product.setDateModified(new Date());
         int i=productDao.add(product);
@@ -45,6 +55,7 @@ public class ProductService implements IProductService {
     }
     public int update(Product product)
     {
+        product.setDateModified(new Date());
         int i=productDao.update(product);
         if(i>0)
         {
@@ -67,9 +78,9 @@ public class ProductService implements IProductService {
             throw new ErrorMessageException(ErrorMessage.SYSTEM_ERROR);
         }
     }
-    public List<Product> search(String id, String keyword, String rows, String page, String sidx, String sord)
+    public SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord)
     {
-        List<Product> list=productDao.search( id,  keyword,  rows,  page,  sidx,  sord);
+        SearchObject list=productDao.search( id,  keyword,  rows,  page,  sidx,  sord);
         return list;
     }
 

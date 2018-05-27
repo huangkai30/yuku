@@ -23,7 +23,7 @@ public class UserService implements IUserService {
     private IUserDao userDao;
 
     public User login(String userName, String password) {
-       // String passwordstr=MD5.md5(password);
+        String passwordstr=MD5.md5(password);
         User user = userDao.getUserbyUserName(userName);
         if (user == null) {
             throw new ErrorMessageException(ErrorMessage.Member.USERNAME_ERROR);

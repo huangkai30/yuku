@@ -28,7 +28,8 @@ public class Constant {
 
 
 
-	//操作类型，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息,5修改用户密码
+	//操作类型，0表示添加商品，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息,5修改用户密码
+	public static final String HANDLE_RECORDS_TYPE_0="0";//
 	public static final String HANDLE_RECORDS_TYPE_1="1";//
 	public static final String HANDLE_RECORDS_TYPE_2="2";//
 	public static final String HANDLE_RECORDS_TYPE_3="3";//
