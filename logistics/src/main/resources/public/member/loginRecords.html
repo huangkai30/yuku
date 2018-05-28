@@ -15,7 +15,42 @@
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-    
+
+
+
+
+
+    <!--<link href="../vendors/ace/assets/css/bootstrap.min.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="../vendors/ace/assets/css/font-awesome.min.css" />
+
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="../vendors/ace/assets/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <link rel="stylesheet" href="../vendors/ace/assets/css/jquery-ui-1.10.3.full.min.css" />
+    <!--<link rel="stylesheet" href="../vendors/ace/assets/css/datepicker.css" />-->
+    <link rel="stylesheet" href="../vendors/ace/assets/css/ui.jqgrid.css" />
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+    <!-- ace styles -->
+
+    <!--<link rel="stylesheet" href="../vendors/ace/assets/css/ace.min.css" />-->
+    <link rel="stylesheet" href="../vendors/ace/css/jqgrid.ace.css" />
+    <!--<link rel="stylesheet" href="../vendors/ace/assets/css/ace-rtl.min.css" />-->
+    <!--<link rel="stylesheet" href="../vendors/ace/assets/css/ace-skins.min.css" />-->
+
+
+
+
+
+
+
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
   </head>
@@ -138,48 +173,11 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
+                  <div class="x_content" id="jqgrid_content">
 
-                    <form class="form-horizontal form-label-left" novalidate>
+                    <table id="grid-table_1"></table>
 
-
-
-
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="old_password">旧密码 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="old_password" type="password" class="form-control col-md-7 col-xs-12" name="old_password" placeholder="old password" required="required" type="text">
-                        </div>
-                      </div>
-
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="new_password">新密码 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="new_password"  type="password"   class="form-control col-md-7 col-xs-12" name="new_password" placeholder="new password" required="required" type="text">
-                        </div>
-                      </div>
-
-
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="new_password">新密码 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="new_password2" type="password" class="form-control col-md-7 col-xs-12" name="password" placeholder="new password" required="required" type="text">
-                        </div>
-                      </div>
-
-
-
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-md-offset-3">
-                          <button type="reset" class="btn btn-primary" id="cancel_form">Cancel</button>
-                          <button id="send" type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                      </div>
-                    </form>
+                    <div id="grid-pager_1"></div>
                   </div>
                 </div>
               </div>
@@ -214,10 +212,33 @@
     <script src="../build/js/custom.js"></script>
 
 
+    <!--[if !IE]> -->
+
+    <!--<script type="text/javascript">-->
+        <!--window.jQuery || document.write("<script src='../vendors/ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");-->
+    <!--</script>-->
+
+    <!--<script type="text/javascript">-->
+        <!--if("ontouchend" in document) document.write("<script src='../vendors/ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");-->
+    <!--</script>-->
+
+
+    <!-- page specific plugin scripts -->
+
+    <script src="../vendors/ace/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="../vendors/ace/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="../vendors/ace/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+
+    <!-- ace scripts -->
+    <script src="../vendors/ace/assets/js/ace-extra.min.js"></script>
+    <script src="../vendors/ace/assets/js/ace-elements.min.js"></script>
+    <script src="../vendors/ace/assets/js/ace.min.js"></script>
+
 
     <script src="/json_ajax.js"></script>
     <script src="/userjs/self.js"></script>
-    <script src="/userjs/resetpassword.js"></script>
+    <script src="/userjs/loginRecords.js"></script>
 	
   </body>
 </html>
