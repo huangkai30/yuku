@@ -110,7 +110,7 @@ public class UserController {
            // setSecurityCodeNumberAll(result,session);
          //   logger.error(e);
         }
-        result.setMsgCode(ErrorCode.SUCCESS_CODE);
+       // result.setMsgCode(ErrorCode.SUCCESS_CODE);
         return result;
     }
 
@@ -142,6 +142,8 @@ public class UserController {
                       records.setDateModified(date);
 
                       handleRecordsService.add(records);
+
+                      result.setMsgCode(ErrorCode.SUCCESS_CODE);
                   }
 
 
@@ -168,7 +170,7 @@ public class UserController {
             // setSecurityCodeNumberAll(result,session);
             //   logger.error(e);
         }
-        result.setMsgCode(ErrorCode.SUCCESS_CODE);
+        //result.setMsgCode(ErrorCode.SUCCESS_CODE);
         return result;
     }
 

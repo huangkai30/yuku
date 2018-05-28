@@ -1,6 +1,6 @@
 package com.lastcompany.haiwaicang.config;
 
-import com.lastcompany.haiwaicang.interceptor.HouseLoginInterceptor;
+//import com.lastcompany.haiwaicang.interceptor.HouseLoginInterceptor;
 import com.lastcompany.haiwaicang.interceptor.UserLoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
@@ -80,6 +80,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 //}
 
 @Configuration
+//public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurationSupport {
 
         @Override
@@ -95,5 +96,20 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurationSupport {
 
             super.addInterceptors(registry);
         }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
+//    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/META-INF/resources/")
+                .addResourceLocations("classpath:/resources/")
+                .addResourceLocations("classpath:/static/")
+                .addResourceLocations("classpath:/public/");
+        super.addResourceHandlers(registry);
+    }
 
 }
