@@ -2,12 +2,16 @@ package com.lastcompany.haiwaicang.dao.impl;
 
 import com.lastcompany.haiwaicang.dao.IProductDao;
 import com.lastcompany.haiwaicang.dao.IProductDao;
+import com.lastcompany.haiwaicang.entity.HandleRecords;
 import com.lastcompany.haiwaicang.entity.Product;
+import com.lastcompany.haiwaicang.entity.SearchObject;
+import com.lastcompany.haiwaicang.util.CommonUtil;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -35,7 +39,12 @@ public class ProductDao implements IProductDao {
 		}
 		else
 		{
-			re=product;
+			re.setDateModified(product.getDateModified());
+			re.setBrand(product.getBrand());
+			re.setDescription(product.getDescription());
+			re.setInventory(product.getInventory());
+			re.setName(product.getName());
+
 			entityManager.flush();
 			return 1;
 		}
@@ -60,14 +69,39 @@ public class ProductDao implements IProductDao {
 
 
 
+
 	@Override
-	public List<Product> search(String id, String keyword,String rows, String page,String sidx,String sord) {
+	public SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord) {
 		String hql ="";
-		List<Product> list=null;
+		List<Product> list=new ArrayList<Product>();
+		SearchObject obj= null;
 		if(id!=null&&id!="")
 		{
 			hql = "FROM Product as ha WHERE ha.id = :id";
-			list = entityManager.createQuery(hql).setParameter("id", id).getResultList();
+			int totalnum=entityManager.createQuery(hql).setParameter("id", id).getResultList().size();
+
+			obj=CommonUtil.fit_search(totalnum,page,rows);
+
+			if(obj.getTotalpage()<page)
+			{
+				list=null;
+				obj.setCurrows(0);
+				obj.setData(list);
+			}
+			else
+			{
+				list = entityManager.createQuery(hql).setParameter("id", id).getResultList();
+				if(list!=null)
+				{
+					obj.setCurrows(list.size());
+					obj.setData(list);
+				}
+			}
+
+
+
+
+
 		}
 		else
 		{
@@ -81,14 +115,67 @@ public class ProductDao implements IProductDao {
 			{
 				keyword="%";
 			}
-			hql="FROM Product as ha WHERE ha.name = :keyword or ha.brand = :keyword or ha.description = :keyword order by :sidx :sord limit :page, :rows";
-			list = entityManager.createQuery(hql).setParameter("keyword", keyword).setParameter("sidx", sidx).setParameter("sord", sord).setParameter("page", page).setParameter("rows", rows).getResultList();
+
+			hql="FROM Product as ha WHERE ha.sku like :keyword or ha.name like :keyword or ha.brand like :keyword or ha.description like :keyword";
+			int totalnum=entityManager.createQuery(hql).setParameter("keyword",keyword).getResultList().size();
+
+			obj=CommonUtil.fit_search(totalnum,page,rows);
+
+
+			if(obj.getTotalpage()<page)
+			{
+				list=null;
+				obj.setCurrows(0);
+				obj.setData(list);
+			}
+			else
+			{
+				int first=(page-1)*rows;
+				if(sidx==null || sord==null)
+				{
+					list = entityManager.createQuery(hql).setParameter("keyword",keyword).setFirstResult(first).setMaxResults(rows).getResultList();
+					//	list = entityManager.createQuery(hql).setFirstResult(first).getResultList();
+
+				}
+				else
+				{
+
+					hql="FROM Product as ha WHERE ha.sku like :keyword or ha.name like :keyword or ha.brand like :keyword or ha.description like :keyword order by ha."+sidx+" "+sord;
+					list = entityManager.createQuery(hql).setParameter("keyword", keyword).setFirstResult(first).setMaxResults(rows).getResultList();
+
+				}
+				if(list==null)
+				{
+					obj.setCurrows(0);
+				}
+				else
+				{
+					obj.setCurrows(list.size());
+				}
+
+				obj.setData(list);
+			}
+
+
 		}
 
 
 
-		return list;
+		return obj;
 
+	}
+
+
+
+	@Override
+	public boolean existsku(String sku){
+		String hql="FROM Product as ha WHERE ha.sku = :sku";
+		int totalnum=entityManager.createQuery(hql).setParameter("sku",sku).getResultList().size();
+		if(totalnum>0)
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -21,19 +21,21 @@ public class Product implements Serializable {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="sku")
+
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid")
+    @Column(name="sku", unique = true,length = 128)
     private String sku;
-    @Column(name="name")
+    @Column(name="name", columnDefinition="TEXT")
     private String name;
 
-    @Column(name="brand")
+    @Column(name="brand", columnDefinition="TEXT")
     private String brand;
 
 
     @Column(name="inventory")
     private int inventory=0;
 
-    @Column(name="description")
+    @Column(name="description", columnDefinition="TEXT")
     private String description;
 
     @Column(name="dateCreated")

@@ -26,14 +26,14 @@ public class UserLogin implements Serializable {
     @Column(name="userId")// 登陆人的id
     private int userId;
 
-    @Column(name="userName")// 登陆人名称
+    @Column(name="userName", columnDefinition="TEXT")// 登陆人名称
     private String userName;
 
     @Column(name="type")//操作类型，1用户登陆，2后台登陆
     private String type;
 
 
-    @Column(name="description")//描述
+    @Column(name="description", columnDefinition="TEXT")//描述
     private String description;
 
     @Column(name="dateCreated")

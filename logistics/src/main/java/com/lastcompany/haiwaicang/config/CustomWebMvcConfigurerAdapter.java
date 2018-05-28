@@ -1,6 +1,7 @@
 package com.lastcompany.haiwaicang.config;
 
 import com.lastcompany.haiwaicang.interceptor.HouseLoginInterceptor;
+import com.lastcompany.haiwaicang.interceptor.UserLoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -87,9 +88,10 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurationSupport {
             // addPathPatterns 用于添加拦截规则
             // excludePathPatterns 用户排除拦截
 
-            InterceptorRegistration aa= registry.addInterceptor(new HouseLoginInterceptor());
+            InterceptorRegistration aa= registry.addInterceptor(new UserLoginInterceptor());
 
-            aa.addPathPatterns("/house/test");
+            aa.addPathPatterns("/user/**");
+            aa.excludePathPatterns("/user/login");
 
             super.addInterceptors(registry);
         }

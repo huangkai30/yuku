@@ -1,6 +1,7 @@
 package com.lastcompany.haiwaicang.service;
 
 import com.lastcompany.haiwaicang.entity.Product;
+import com.lastcompany.haiwaicang.entity.SearchObject;
 
 import java.util.List;
 //import com.auctionplatform.constant.Page;
@@ -15,6 +16,6 @@ public interface IProductService {
     int add(Product product);
     int update(Product product);
     int delete(int id);
-    public List<Product> search(String id, String keyword, String rows, String page, String sidx, String sord);
+    public SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord);
 
 }

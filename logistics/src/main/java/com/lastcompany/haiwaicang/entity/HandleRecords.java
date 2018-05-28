@@ -27,13 +27,13 @@ public class HandleRecords implements Serializable {
     private int userId;
 
     @Column(name="userName")// 操作人名称
-    private int userName;
+    private String userName;
 
     @Column(name="type")//操作类型，1表示进库，2表示出库，3表示修改商品信息,4表示修改会员信息,5修改用户密码
     private String type;
 
 
-    @Column(name="description")//描述
+    @Column(name="description", columnDefinition="TEXT")//描述
     private String description;
 
     @Column(name="dateCreated")
@@ -90,5 +90,13 @@ public class HandleRecords implements Serializable {
 
     public void setDateModified(Date dateModified) {
         this.dateModified = dateModified;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

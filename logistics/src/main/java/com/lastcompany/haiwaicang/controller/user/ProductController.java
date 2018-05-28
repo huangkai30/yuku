@@ -2,30 +2,26 @@ package com.lastcompany.haiwaicang.controller.user;
 
 
 import com.lastcompany.haiwaicang.constant.*;
+import com.lastcompany.haiwaicang.dao.IProductDao;
 import com.lastcompany.haiwaicang.entity.HandleRecords;
+import com.lastcompany.haiwaicang.entity.Product;
 import com.lastcompany.haiwaicang.entity.SearchObject;
-import com.lastcompany.haiwaicang.entity.User;
-import com.lastcompany.haiwaicang.entity.UserLogin;
 import com.lastcompany.haiwaicang.service.IHandleRecordsService;
+import com.lastcompany.haiwaicang.service.IProductService;
 import com.lastcompany.haiwaicang.service.IUserLoginService;
 import com.lastcompany.haiwaicang.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("user/handle_records")
-public class HandleRecordsController {
+@RequestMapping("user/product")
+public class ProductController {
 //    //    private final Logger logger = Logger.getLogger(HouseController.class);
     @Autowired
     private IUserService userService;
@@ -36,24 +32,35 @@ public class HandleRecordsController {
     @Autowired
     private IHandleRecordsService handleRecordsService;
 
+    @Autowired
+    private IProductService productService;
+
 
 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object add(HttpServletRequest request,@RequestBody HandleRecords handleRecords, BindingResult bindingResult){
+    public Object add(HttpServletRequest request, @RequestBody Product product,HttpSession session, BindingResult bindingResult){
         Result result = new Result();
         if (bindingResult.hasErrors()) {
             result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
             result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
         } else {
             try {
-              int i=   handleRecordsService.add(handleRecords);
+              int i=   productService.add(product);
+
               if(i==0)
               {
                   result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
               }
               else
               {
+                  HandleRecords records=new HandleRecords();
+                  records.setUserId(Integer.parseInt(session.getAttribute(Constant.SESSION_MEMBER_USERID).toString()));
+                  records.setUserName(session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
+                  records.setType(Constant.HANDLE_RECORDS_TYPE_0);
+                  records.setDescription("Add Product. sku: "+product.getSku());
+
+                  handleRecordsService.add(records);
                   result.setMsgCode(ErrorCode.SUCCESS_CODE);
               }
             } catch (ErrorMessageException e) {
@@ -70,20 +77,31 @@ public class HandleRecordsController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Object update(HttpServletRequest request,@RequestBody HandleRecords handleRecords, BindingResult bindingResult){
+    public Object update(HttpServletRequest request,@RequestBody Product product,HttpSession session,  BindingResult bindingResult){
         Result result = new Result();
         if (bindingResult.hasErrors()) {
             result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
             result.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
         } else {
             try {
-                int i=   handleRecordsService.update(handleRecords);
+                int i=   productService.update(product);
                 if(i==0)
                 {
                     result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
                 }
                 else
                 {
+
+
+                    Product pr=productService.getById(product.getId());
+                    HandleRecords records=new HandleRecords();
+                    records.setUserId(Integer.parseInt(session.getAttribute(Constant.SESSION_MEMBER_USERID).toString()));
+                    records.setUserName(session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
+                    records.setType(Constant.HANDLE_RECORDS_TYPE_3);
+
+                    records.setDescription("Update Product. sku: "+pr.getSku());
+
+                    handleRecordsService.add(records);
                     result.setMsgCode(ErrorCode.SUCCESS_CODE);
                 }
             } catch (ErrorMessageException e) {
@@ -114,7 +132,7 @@ public class HandleRecordsController {
               {
                   for(int i=0;i<ids.size();i++)
                   {
-                      handleRecordsService.delete(Integer.parseInt(ids.get(i)));
+                      productService.delete(Integer.parseInt(ids.get(i)));
                   }
                   result.setMsgCode(ErrorCode.SUCCESS_CODE);
               }
@@ -148,7 +166,7 @@ public class HandleRecordsController {
         Result result = new Result();
 
             try {
-               HandleRecords re= handleRecordsService.getById(id);
+               Product re= productService.getById(id);
                 if(re==null)
                 {
                     result.setMsgCode(ErrorCode.SHOW_EXCEPTION);
@@ -184,7 +202,7 @@ public class HandleRecordsController {
         Result result = new Result();
 
             try {
-                SearchObject records= handleRecordsService.search(id,keyword,rows,page,sidx,sord);
+                SearchObject records= productService.search(id,keyword,rows,page,sidx,sord);
 
                 result.setMsgCode(ErrorCode.SUCCESS_CODE);
                 result.setData(records);

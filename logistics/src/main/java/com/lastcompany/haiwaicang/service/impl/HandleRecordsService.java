@@ -4,10 +4,12 @@ import com.lastcompany.haiwaicang.constant.ErrorMessage;
 import com.lastcompany.haiwaicang.constant.ErrorMessageException;
 import com.lastcompany.haiwaicang.dao.IHandleRecordsDao;
 import com.lastcompany.haiwaicang.entity.HandleRecords;
+import com.lastcompany.haiwaicang.entity.SearchObject;
 import com.lastcompany.haiwaicang.service.IHandleRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 //import com.lastcompany.haiwaicang.service.IHandleRecordsService;
@@ -29,6 +31,8 @@ public class HandleRecordsService implements IHandleRecordsService {
 
     public int add(HandleRecords handleRecords)
     {
+        handleRecords.setDateCreated(new Date());
+        handleRecords.setDateModified(new Date());
         int i=handleRecordsDao.add(handleRecords);
         if(i>0)
         {
@@ -63,9 +67,9 @@ public class HandleRecordsService implements IHandleRecordsService {
             throw new ErrorMessageException(ErrorMessage.SYSTEM_ERROR);
         }
     }
-    public List<HandleRecords> search(String id, String keyword, String rows, String page, String sidx, String sord)
+    public SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord)
     {
-        List<HandleRecords> list=handleRecordsDao.search( id,  keyword,  rows,  page,  sidx,  sord);
+        SearchObject list=handleRecordsDao.search( id,  keyword,  rows,  page,  sidx,  sord);
         return list;
     }
 
