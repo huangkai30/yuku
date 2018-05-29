@@ -134,6 +134,7 @@ public class UserController {
                   {
                       HandleRecords records=new HandleRecords();
                       records.setDescription("reset password : "+session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
+                      records.setUserName(session.getAttribute(Constant.SESSION_MEMBER_USERNAME).toString());
                       records.setType(Constant.HANDLE_RECORDS_TYPE_5);
                       records.setUserId(user.getId());
 

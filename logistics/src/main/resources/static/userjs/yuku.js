@@ -27,8 +27,8 @@ $(function () {
         var data={"keyword":keyword};
         refreshDataGrid(data);
     });
-    
-    
+
+    init_validator_defined ();
 })
 
 
@@ -77,7 +77,7 @@ function init_table_grid()
 
     jQuery(grid_selector).jqGrid({
         // postData: {"auctionId":auctionId,"statusList":statusList},
-        url: "/user/userLogin/search",
+        url: "/user/product/search",
         datatype: "json",
         height: "auto",
         mtype: "post",
@@ -86,14 +86,35 @@ function init_table_grid()
             {name:'userName',index:'userName', width:80},
             {name:'type',index:'type', width:80,
                 formatter: function (cellvalue, options, row) {
+
+
+
+
+
                     var temp="";
-                    if(cellvalue==1)
+                    if(cellvalue==0)
                     {
-                        temp="用户登陆";
+                        temp="添加商品";
+                    }
+                    else if(cellvalue==1)
+                    {
+                        temp="商品入库";
                     }
                     else if(cellvalue==2)
                     {
-                        temp="后台登陆";
+                        temp="商品出库";
+                    }
+                    else if(cellvalue==3)
+                    {
+                        temp="修改商品信息";
+                    }
+                    else if(cellvalue==4)
+                    {
+                        temp="修改会员信息";
+                    }
+                    else if(cellvalue==5)
+                    {
+                        temp="修改用户密码";
                     }
                     return temp;
                 }},
@@ -360,4 +381,50 @@ function delete_rows(ids)
 //提交js对象参数刷新列表数据
 function refreshDataGrid(data) {
     $(grid_selector).jqGrid("setGridParam", { postData: data }).trigger("reloadGrid");
+}
+
+
+
+function init_validator_defined () {
+
+    if( typeof (validator) === 'undefined'){ return; }
+    console.log('init_validator');
+
+    // initialize the validator function
+    validator.message.date = 'not a real date';
+
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('form')
+        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+        .on('change', 'select.required', validator.checkField)
+        .on('keypress', 'input[required][pattern]', validator.keypress);
+
+    $('.multi.required').on('keyup blur', 'input', function() {
+        validator.checkField.apply($(this).siblings().last()[0]);
+    });
+
+    $("#form_add_product").submit(function(e) {
+        e.preventDefault();
+        var submit = true;
+
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+
+        if (submit)
+        {
+            add_product();
+        }
+        // this.submit();
+
+        return false;
+    });
+
+};
+
+
+function add_product() {
+    var data=getEelementData("#")
+
 }

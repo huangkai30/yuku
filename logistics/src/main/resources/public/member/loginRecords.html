@@ -87,8 +87,8 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/yuku">入库管理</a></li>
-                      <li><a href="/handleRecords">操作记录</a></li>
+                      <li><a href="/member/yuku.html">入库管理</a></li>
+                      <li><a href="/member/handleRecords.html">操作记录</a></li>
                       <li><a href="/member/loginRecords.html">登陆记录</a></li>
                       <li><a href="/member/resetpassword.html">修改密码</a></li>
                     </ul>
@@ -164,7 +164,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>修改密码</h2>
+                    <h2>登陆记录</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -173,8 +173,20 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content" id="jqgrid_content">
 
+                  <div class="x_content" id="jqgrid_content">
+                    <div class="row">
+                      <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for..." id="search_keyword">
+                            <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" id="search_click">Go!</button>
+                    </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <table id="grid-table_1"></table>
 
                     <div id="grid-pager_1"></div>
@@ -188,9 +200,9 @@
 
         <!-- footer content -->
         <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by Colorlib. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
-          </div>
+          <!--<div class="pull-right">-->
+            <!--Gentelella - Bootstrap Admin Template by Colorlib. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>-->
+          <!--</div>-->
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->

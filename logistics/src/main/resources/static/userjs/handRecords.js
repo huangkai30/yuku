@@ -77,7 +77,7 @@ function init_table_grid()
 
     jQuery(grid_selector).jqGrid({
         // postData: {"auctionId":auctionId,"statusList":statusList},
-        url: "/user/userLogin/search",
+        url: "/user/handle_records/search",
         datatype: "json",
         height: "auto",
         mtype: "post",
@@ -86,14 +86,35 @@ function init_table_grid()
             {name:'userName',index:'userName', width:80},
             {name:'type',index:'type', width:80,
                 formatter: function (cellvalue, options, row) {
+
+
+
+
+
                     var temp="";
-                    if(cellvalue==1)
+                    if(cellvalue==0)
                     {
-                        temp="用户登陆";
+                        temp="添加商品";
+                    }
+                    else if(cellvalue==1)
+                    {
+                        temp="商品入库";
                     }
                     else if(cellvalue==2)
                     {
-                        temp="后台登陆";
+                        temp="商品出库";
+                    }
+                    else if(cellvalue==3)
+                    {
+                        temp="修改商品信息";
+                    }
+                    else if(cellvalue==4)
+                    {
+                        temp="修改会员信息";
+                    }
+                    else if(cellvalue==5)
+                    {
+                        temp="修改用户密码";
                     }
                     return temp;
                 }},
