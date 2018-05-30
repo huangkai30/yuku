@@ -425,6 +425,31 @@ function init_validator_defined () {
 
 
 function add_product() {
-    var data=getEelementData("#")
+    var data=getEelementData("#form_add_product");
+    if(isNaN(parseFloat(data.inventory))||parseFloat(data.inventory<0))
+    {
+        alert("库存不能小于0.");
+        return false;
+    }
+    ajax("/user/product/add",data,succ_fun_add_product,true,"post");
 
+}
+
+
+function succ_fun_add_product(result) {
+    if(result==undefined)
+    {
+        alert("处理出错。");
+    }
+    else
+    {
+        if(result.msgCode==200)
+        {
+            alert("保存成功");
+        }
+        else
+        {
+            alert("保存出错，原因: "+result.msg);
+        }
+    }
 }
