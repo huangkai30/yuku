@@ -26,7 +26,39 @@ function ajax(url,data,succ_fun,async,type) {
 }
 
 
+function ajax_class(url,data,succ_fun,async,type) {
+    if (async==""||async==undefined) {
+        async = true;
+    }
+    if (type=="get"||type=="GET") {
+        type = "get";
+    }
+    else
+    {
+        type = "post";
+    }
 
+    if(data!=""&&data!=undefined)
+    {
+        data=JSON.stringify(data);
+    }
+
+    $.ajax({
+        url: url,
+        data: data,
+        dataType: "json",
+        contentType: "application/json",
+        type: type,
+        async: async,
+        success: function (result) {
+            succ_fun(result);
+        },
+        error: function (r) {
+            window.location.href="/login.html"
+            //alert("请求失败，请刷新重试");
+        }
+    });
+}
 
 var websit_domain_url="http://47.89.247.164:8080"
 //对某个标签内的input进行赋值

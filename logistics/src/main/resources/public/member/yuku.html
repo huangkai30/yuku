@@ -187,6 +187,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="a_sku" type="" class="form-control col-md-7 col-xs-12" name="sku" placeholder="SKU" required="required" type="text">
+                          <span style="color:brown;display: none" id="add_product_sku_exist_flag">Sku已经存在</span>
                         </div>
                       </div>
 
@@ -227,8 +228,8 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <button type="reset" class="btn btn-primary" id="cancel_form">Cancel</button>
-                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                          <button type="reset" class="btn btn-primary" id="add_product_cancel_form">Cancel</button>
+                          <button id="add_product_send" type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>
                     </form>
@@ -264,51 +265,20 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_sku">Sku <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="a_sku" type="" class="form-control col-md-7 col-xs-12" name="sku" placeholder="SKU" required="required" type="text">
+                          <input id="input_sku" type="" class="form-control col-md-7 col-xs-12" name="sku" placeholder="SKU" required="required" type="text">
                         </div>
                       </div>
 
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_name">名称 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="a_name"  type=""   class="form-control col-md-7 col-xs-12" name="name" placeholder="Name" required="required" type="text">
-                        </div>
+                      <div class="item form-group"  id="input_show_info">
+                        <p>
+                            <label>入库数：</label><span style="color:blue" name="cur_input_number">1</span>&nbsp;&nbsp;  <label>总库存：</label><span name="inventory" style="color: brown">100</span>&nbsp;&nbsp;  <label>Sku：</label><span name="sku">sku0001</span>&nbsp;&nbsp;<label>名称：</label><span name="name">name0001</span>
+                        </p>
+
+
                       </div>
 
 
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_brand">品牌 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="a_brand" type="" class="form-control col-md-7 col-xs-12" name="brand" placeholder="Brand" required="required" type="text">
-                        </div>
-                      </div>
 
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_inventory">库存 <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="a_inventory"  class="form-control col-md-7 col-xs-12" name="inventory" placeholder="inventory" required="required" type="number" value="1">
-                        </div>
-                      </div>
-
-
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_description">描述
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="a_description"  name="description" class="form-control col-md-7 col-xs-12"></textarea>
-                        </div>
-                      </div>
-
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-md-offset-3">
-                          <button type="reset" class="btn btn-primary" id="cancel_form">Cancel</button>
-                          <button id="send" type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                      </div>
                     </form>
                   </div>
                 </div>
@@ -336,51 +306,19 @@
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_sku">Sku <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="a_sku" type="" class="form-control col-md-7 col-xs-12" name="sku" placeholder="SKU" required="required" type="text">
+                            <input id="out_sku" type="" class="form-control col-md-7 col-xs-12" name="sku" placeholder="SKU" required="required" type="text">
                           </div>
                         </div>
 
-                        <div class="item form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_name">名称 <span class="required">*</span>
-                          </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="a_name"  type=""   class="form-control col-md-7 col-xs-12" name="name" placeholder="Name" required="required" type="text">
-                          </div>
+                        <div class="item form-group" id="output_show_info">
+                          <p>
+                            <label>出库数：</label><span style="color:blue" name="cur_input_number">1</span>&nbsp;&nbsp;  <label>总库存：</label><span name="inventory" style="color: brown">100</span>&nbsp;&nbsp;  <label>Sku：</label><span name="sku">sku0001</span>&nbsp;&nbsp;<label>名称：</label><span name="name">name0001</span>
+                          </p>
+
                         </div>
 
 
-                        <div class="item form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_brand">品牌 <span class="required">*</span>
-                          </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="a_brand" type="" class="form-control col-md-7 col-xs-12" name="brand" placeholder="Brand" required="required" type="text">
-                          </div>
-                        </div>
 
-                        <div class="item form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_inventory">库存 <span class="required">*</span>
-                          </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="a_inventory"  class="form-control col-md-7 col-xs-12" name="inventory" placeholder="inventory" required="required" type="number" value="1">
-                          </div>
-                        </div>
-
-
-                        <div class="item form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_description">描述
-                          </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea id="a_description"  name="description" class="form-control col-md-7 col-xs-12"></textarea>
-                          </div>
-                        </div>
-
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                          <div class="col-md-6 col-md-offset-3">
-                            <button type="reset" class="btn btn-primary" id="cancel_form">Cancel</button>
-                            <button id="send" type="submit" class="btn btn-success">Submit</button>
-                          </div>
-                        </div>
                       </form>
                     </div>
                   </div>

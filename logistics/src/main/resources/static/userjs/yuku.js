@@ -28,9 +28,175 @@ $(function () {
         refreshDataGrid(data);
     });
 
-    init_validator_defined ();
-})
 
+
+    //添加产品时回车，要查询当前的sku是否存在
+    $("#form_add_product input[name=sku]").bind("keypress", (function (e) {
+        if (e.keyCode == 13) {
+            if($("#form_add_product input[name=sku]").val()!="")
+            {
+                var data={"sku":$("#form_add_product input[name=sku]").val()}
+
+                ajax("/user/product/getbysku",data,succ_fun_getbysku_product,true,"post");
+            }
+            else
+            {
+                $("#add_product_send").removeAttr("disabled");
+                $("#add_product_sku_exist_flag").hide();
+            }
+
+        }
+    }));
+
+
+
+
+    //入库产品
+    $("#form_add_input input[name=sku]").bind("keypress", (function (e) {
+        if (e.keyCode == 13) {
+            if($("#form_add_input input[name=sku]").val()!="")
+            {
+                var data={"sku":$("#form_add_input input[name=sku]").val().trim(),"quantity":1}
+
+                ajax("/user/product/input_inventory",data,succ_fun_input_product,true,"post");
+            }
+            else
+            {
+                // $("#add_product_send").removeAttr("disabled");
+                // $("#add_product_sku_exist_flag").hide();
+            }
+
+        }
+    }));
+
+
+    //出库产品
+    $("#form_add_output input[name=sku]").bind("keypress", (function (e) {
+        if (e.keyCode == 13) {
+            if($("#form_add_output input[name=sku]").val()!="")
+            {
+                var data={"sku":$("#form_add_output input[name=sku]").val().trim(),"quantity":1}
+
+                ajax("/user/product/remove_inventory",data,succ_fun_out_product,true,"post");
+            }
+            else
+            {
+                // $("#add_product_send").removeAttr("disabled");
+                // $("#add_product_sku_exist_flag").hide();
+            }
+
+        }
+    }));
+
+
+    $("#form_add_product input[name=sku]").blur(function () {
+        if($("#form_add_product input[name=sku]").val()!="")
+        {
+            var data={"sku":$("#form_add_product input[name=sku]").val()}
+
+            ajax("/user/product/getbysku",data,succ_fun_getbysku_product,true,"post");
+        }
+        else
+        {
+            $("#add_product_send").removeAttr("disabled");
+            $("#add_product_sku_exist_flag").hide();
+        }
+    });
+
+    init_validator_defined ();
+});
+
+
+function succ_fun_input_product(result)
+{
+    if(result==undefined)
+    {
+        alert("处理出错。");
+    }
+    else
+    {
+        if(result.msgCode==200)
+        {
+            if(result.data==null)
+            {
+                alert("保存异常。");
+            }
+            else
+            {
+                $("#form_add_input input[name=sku]").val("");
+                setSpanText("#input_show_info",result.data);
+
+                $("#input_show_info span[name=cur_input_number]").html(1);
+                $("#search_click").click();
+            }
+        }
+        else
+        {
+            alert("保存出错，原因: "+result.msg);
+        }
+    }
+}
+
+
+
+function succ_fun_getbysku_product(result)
+{
+    if(result==undefined)
+    {
+        alert("处理出错。");
+    }
+    else
+    {
+        if(result.msgCode==200)
+        {
+            if(result.data==null)
+            {
+                $("#add_product_send").removeAttr("disabled");
+                $("#add_product_sku_exist_flag").hide();
+            }
+            else
+            {
+                $("#add_product_send").attr("disabled",true);
+                $("#add_product_sku_exist_flag").show();
+            }
+            $("#search_click").click();
+        }
+        else
+        {
+            alert("保存出错，原因: "+result.msg);
+        }
+    }
+}
+
+
+function succ_fun_out_product(result)
+{
+    if(result==undefined)
+    {
+        alert("处理出错。");
+    }
+    else
+    {
+        if(result.msgCode==200)
+        {
+            if(result.data==null)
+            {
+                alert("保存异常。");
+            }
+            else
+            {
+                $("#form_add_output input[name=sku]").val("");
+                setSpanText("#output_show_info",result.data);
+                $("#search_click").click();
+                $("#output_show_info span[name=cur_input_number]").html(1);
+            }
+        }
+        else
+        {
+            alert("保存出错，原因: "+result.msg);
+        }
+    }
+}
 
 function init_table_grid()
 {
@@ -70,7 +236,7 @@ function init_table_grid()
     // statusList.push(null);
     // var local_status=0;
 
-    var title=['用户名','类型','描述','时间'];
+    var title=['SKU','库存','名称','品牌','描述','最后修改人','修改时间','创建时间'];
 
 
 
@@ -83,50 +249,34 @@ function init_table_grid()
         mtype: "post",
         colNames:title,
         colModel:[
-            {name:'userName',index:'userName', width:80},
-            {name:'type',index:'type', width:80,
-                formatter: function (cellvalue, options, row) {
+            {name:'sku',index:'sku', width:80},
+            {name:'inventory',index:'inventory', width:40},
+            {name:'name',index:'name', width:60},
+            {name:'brand',index:'brand', width:60},
+
+            {name:'description',index:'description', width:100},
+            {name:'lastpersion',index:'lastpersion', width:60},
 
 
 
 
+            {name:'dateModified',index:'dateModified', width:80,resize:false,sortable: true,formatter: function (cellvalue, options, row){
+                    if(removenull(cellvalue)!="")
+                    {
+                        var date=new Date(cellvalue);
+                        return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
 
-                    var temp="";
-                    if(cellvalue==0)
-                    {
-                        temp="添加商品";
+
                     }
-                    else if(cellvalue==1)
+                    else
                     {
-                        temp="商品入库";
+                        return "";
                     }
-                    else if(cellvalue==2)
-                    {
-                        temp="商品出库";
-                    }
-                    else if(cellvalue==3)
-                    {
-                        temp="修改商品信息";
-                    }
-                    else if(cellvalue==4)
-                    {
-                        temp="修改会员信息";
-                    }
-                    else if(cellvalue==5)
-                    {
-                        temp="修改用户密码";
-                    }
-                    return temp;
                 }},
 
-            {
-                name: 'description', index: 'description', width: 120 },
 
 
-
-
-
-            {name:'dateCreated',index:'dateCreated', width:80,resize:false,sortable: false,formatter: function (cellvalue, options, row){
+            {name:'dateCreated',index:'dateCreated', width:80,resize:false,sortable: true,formatter: function (cellvalue, options, row){
                 if(removenull(cellvalue)!="")
                 {
                     var date=new Date(cellvalue);
@@ -159,9 +309,9 @@ function init_table_grid()
         altRows: true,
         //toppager: true,
 
-        multiselect: false,
+        multiselect: true,
         //multikey: "ctrlKey",
-        multiboxonly: false,
+        multiboxonly: true,
         // serializeGridData: function(postData) {
         //     return JSON.stringify(postData);
         // },
@@ -265,7 +415,7 @@ function init_table_grid()
             editicon : 'icon-pencil blue',
             add: false,
             addicon : 'icon-plus-sign purple',
-            del: false,
+            del: true,
             delicon : 'icon-trash red',
             search: false,
             searchicon : 'icon-search orange',
@@ -279,11 +429,8 @@ function init_table_grid()
                 //alert(ids);
 
                 if ((removenull(ids) === "") || (ids.length < 1)) {
-                    // alert("please choose the items!");
-                    // bootbox.alert("please choose the items!");
-                    var message=get_alert_message("jqgrid_chooseitems",lan_flag_hearder);
-                    bootbox.alert(message);
-                    return false;
+                  alert("请选择要删除的数据。");
+                  return false;
                 }
 
 
@@ -326,55 +473,47 @@ function delete_rows(ids)
     if(removenull(ids)===""||ids.length<1)
     {
 
-        var message=get_alert_message("jqgrid_deleteitems",lan_flag_hearder);
-        bootbox.alert(message);
-        //bootbox.alert("Please select the item you want to delete!");
+        alert("请选择要删除的数据。");
         return false;
     }
-    var message=get_alert_message("jqgrid_deleteconfirm",lan_flag_hearder);
-    bootbox.confirm(message, function (confirmed) {
+    var num=ids.length;
 
 
-        if (confirmed == true) {
 
-            $("#loading").show();
-            $.ajax({
-                type: "post",
-                url: "/biz/house/creditCard/delete",
-                // contentType: "application/json",
-                dataType: "json",
-                // data:data2,
-                data: {
-                    "ids": ids
-                },
-                success: function (response) {
-                    $("#loading").hide();
+    if (confirm("确认删除？")==true){
+            var data={"ids[]":ids};
+            ajax("/user/product/delete",data,succ_fun_delete,true,"post");
+    }else{
 
+    }
 
-                    var code = response.msgCode;
-                    if ("200" == code) {
-                        //alert("Delete Successfully!");
-                        // bootbox.alert("Delete Successfully!");
-
-                        $("#btnAdvanceSearch1").click();
-                    }
-                    else {
-                        // alert("Error：" + response.msg);
-                        bootbox.alert("Error：" + response.msg);
-                    }
-                },
-                error:function(error){
-
-                    house_redirct(error);
-
-                }
-            });
-        } else {
-
-        }
-    });
+    // confirm("你确认要删除选择的"+num+"数据吗？", function (confirmed) {
+    //
+    //     var data={"ids[]":ids};
+    //     ajax("/user/product/delete",data,succ_fun_delete,true,"post");
+    // });
 }
 
+
+//删除数据返回处理
+function succ_fun_delete(result) {
+    if(result==undefined)
+    {
+        alert("处理出错。");
+    }
+    else
+    {
+        if(result.msgCode==200)
+        {
+            $("#search_click").click();
+            alert("删除成功");
+        }
+        else
+        {
+            alert("删除出错，原因: "+result.msg);
+        }
+    }
+}
 
 
 
@@ -394,10 +533,10 @@ function init_validator_defined () {
     validator.message.date = 'not a real date';
 
     // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
-    $('form')
-        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
-        .on('change', 'select.required', validator.checkField)
-        .on('keypress', 'input[required][pattern]', validator.keypress);
+    // $('form')
+    //     .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+    //     .on('change', 'select.required', validator.checkField)
+    //     .on('keypress', 'input[required][pattern]', validator.keypress);
 
     $('.multi.required').on('keyup blur', 'input', function() {
         validator.checkField.apply($(this).siblings().last()[0]);
@@ -414,6 +553,12 @@ function init_validator_defined () {
 
         if (submit)
         {
+            var hasFocus = $("#form_add_product input[name=sku]").is(':focus');
+            if(hasFocus==true)//如果焦点在sku输入框，不能提交
+            {
+                return false;
+            }
+
             add_product();
         }
         // this.submit();
@@ -431,7 +576,7 @@ function add_product() {
         alert("库存不能小于0.");
         return false;
     }
-    ajax("/user/product/add",data,succ_fun_add_product,true,"post");
+    ajax_class("/user/product/add",data,succ_fun_add_product,true,"post");
 
 }
 
@@ -445,6 +590,7 @@ function succ_fun_add_product(result) {
     {
         if(result.msgCode==200)
         {
+            $("#search_click").click();
             alert("保存成功");
         }
         else

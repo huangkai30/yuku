@@ -28,6 +28,48 @@ public class ProductService implements IProductService {
       return  productDao.getById(id);
     }
 
+    public Product getBySku(String sku)
+    {
+        return  productDao.getBySku(sku);
+    }
+
+    public Product addInventory(String sku,int inventory)
+    {
+        Product re=productDao.getBySku(sku);
+        if(re==null)
+        {
+            throw new ErrorMessageException("No this product by this Sku: "+sku);
+        }
+        else
+        {
+            int newin=inventory+re.getInventory();
+            Product re1=productDao.updateInventory(re.getId(),newin);
+            return re1;
+
+        }
+
+    }
+    public Product removeInventory(String sku,int inventory)
+    {
+        Product re=productDao.getBySku(sku);
+        if(re==null)
+        {
+            throw new ErrorMessageException("No this product by this Sku: "+sku);
+        }
+        else
+        {
+            int newin=re.getInventory()-inventory;
+            if(newin<0)
+            {
+                throw new ErrorMessageException("There is not enough inventory("+re.getInventory()+") Sku: "+sku);
+            }
+            Product re1=productDao.updateInventory(re.getId(),newin);
+            return re1;
+
+        }
+    }
+
+
 
 
     public int add(Product product)

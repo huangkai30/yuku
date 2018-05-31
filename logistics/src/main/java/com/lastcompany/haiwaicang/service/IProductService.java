@@ -10,8 +10,9 @@ import java.util.List;
 
 public interface IProductService {
     Product getById(int id);
-
-
+    Product getBySku(String sku);
+    Product addInventory(String sku,int inventory);
+    Product removeInventory(String sku,int inventory);
 
     int add(Product product);
     int update(Product product);

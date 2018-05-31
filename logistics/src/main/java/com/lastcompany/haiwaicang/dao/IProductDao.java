@@ -11,7 +11,7 @@ public interface IProductDao {
 
 
     Product getById(int id);
-
+    Product getBySku(String sku);
 
 
     int add(Product product);
@@ -22,6 +22,11 @@ public interface IProductDao {
     SearchObject search(String id, String keyword, int rows, int page, String sidx, String sord);
 
     boolean existsku(String sku);
+
+    Product updateInventory(int id,int inventory);
+
+
+
 
 
 }

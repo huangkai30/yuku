@@ -116,6 +116,10 @@ function init_table_grid()
                     {
                         temp="修改用户密码";
                     }
+                    else if(cellvalue==6)
+                    {
+                        temp="删除商品";
+                    }
                     return temp;
                 }},
 

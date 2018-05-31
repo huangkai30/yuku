@@ -26,6 +26,36 @@ public class ProductDao implements IProductDao {
 	}
 
 	@Override
+	public Product updateInventory(int id,int inventory)
+	{
+		Product re = getById(id);
+		if(re==null)
+		{
+			return null;
+		}
+		else
+		{
+
+			re.setInventory(inventory);
+
+			entityManager.flush();
+			return re;
+		}
+	}
+
+
+	@Override
+	public Product getBySku(String sku) {
+		String hql="FROM Product as ha WHERE ha.sku = :sku";
+		List<Product> list=entityManager.createQuery(hql).setParameter("sku",sku).getResultList();
+		if(list==null||list.size()==0)
+		{
+			return null;
+		}
+
+		return list.get(0);
+	}
+	@Override
 	public int add(Product product) {
 		entityManager.persist(product);
 		return 1;
@@ -44,6 +74,7 @@ public class ProductDao implements IProductDao {
 			re.setDescription(product.getDescription());
 			re.setInventory(product.getInventory());
 			re.setName(product.getName());
+			re.setLastpersion(product.getLastpersion());
 
 			entityManager.flush();
 			return 1;

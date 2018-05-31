@@ -38,6 +38,9 @@ public class Product implements Serializable {
     @Column(name="description", columnDefinition="TEXT")
     private String description;
 
+    @Column(name="lastpersion")
+    private String lastpersion;
+
     @Column(name="dateCreated")
     @CreatedDate
     private Date dateCreated;
@@ -45,6 +48,10 @@ public class Product implements Serializable {
     @Column(name="dateModified")
     @LastModifiedDate
     private Date dateModified;
+
+
+
+
 
     public int getId() {
         return id;
@@ -92,6 +99,15 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public String getLastpersion() {
+        return lastpersion;
+    }
+
+    public void setLastpersion(String lastpersion) {
+        this.lastpersion = lastpersion;
     }
 
     public Date getDateCreated() {

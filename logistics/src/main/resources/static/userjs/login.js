@@ -25,7 +25,7 @@ function succ_fun(result) {
     {
         if(result.msgCode==200)
         {
-            alert("登陆成功");
+            window.location.href="/member/yuku.html";
         }
         else
         {
