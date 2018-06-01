@@ -104,6 +104,12 @@ $(function () {
     });
 
     init_validator_defined ();
+
+
+
+    $("#update_product_button").click(function () {
+        $("#edit_product_submit").click();
+    })
 });
 
 
@@ -236,7 +242,7 @@ function init_table_grid()
     // statusList.push(null);
     // var local_status=0;
 
-    var title=['SKU','库存','名称','品牌','描述','最后修改人','修改时间','创建时间'];
+    var title=['SKU','库存','名称','品牌','描述','最后修改人','修改时间','创建时间',''];
 
 
 
@@ -290,6 +296,12 @@ function init_table_grid()
                 }
             }},
 
+
+
+            {name:'id',index:'id', width:40,resize:false,sortable: true,formatter: function (cellvalue, options, row){
+                   var str='<button type="button" class="btn btn-success btn-xs" onclick="edit_product('+row.id+')">编辑</button>';
+                   return str;
+                }},
 
 
 
@@ -566,6 +578,30 @@ function init_validator_defined () {
         return false;
     });
 
+
+
+
+
+    $("#form_update_product").submit(function(e) {
+        e.preventDefault();
+        var submit = true;
+
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+
+        if (submit)
+        {
+
+
+            update_product();
+        }
+        // this.submit();
+
+        return false;
+    });
+
 };
 
 
@@ -579,6 +615,20 @@ function add_product() {
     ajax_class("/user/product/add",data,succ_fun_add_product,true,"post");
 
 }
+
+
+
+function update_product() {
+    var data=getEelementData("#form_update_product");
+    if(isNaN(parseFloat(data.inventory))||parseFloat(data.inventory<0))
+    {
+        alert("库存不能小于0.");
+        return false;
+    }
+    ajax_class("/user/product/update",data,succ_fun_update_product,true,"post");
+
+}
+
 
 
 function succ_fun_add_product(result) {
@@ -597,5 +647,52 @@ function succ_fun_add_product(result) {
         {
             alert("保存出错，原因: "+result.msg);
         }
+    }
+}
+
+
+
+
+function succ_fun_update_product(result) {
+    if(result==undefined)
+    {
+        alert("处理出错。");
+    }
+    else
+    {
+        if(result.msgCode==200)
+        {
+            $("#search_click").click();
+            $("#close_update").click();
+          //  alert("更新成功");
+        }
+        else
+        {
+            alert("更新出错，原因: "+result.msg);
+        }
+    }
+}
+
+
+
+function edit_product(id)
+{
+    var obj=null;
+    if(grid_jsonData!=null)
+    {
+        for(var i=0;i<grid_jsonData.length;i++)
+        {
+            if(grid_jsonData[i].id==id)
+            {
+                obj=grid_jsonData[i];
+                break;
+            }
+        }
+    }
+
+    if(obj!=null)
+    {
+        setInputData("#form_update_product",obj);
+        $("#show_product_detail").click();
     }
 }

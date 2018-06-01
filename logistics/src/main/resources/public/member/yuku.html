@@ -356,6 +356,7 @@
                     <table id="grid-table_1"></table>
 
                     <div id="grid-pager_1"></div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" id="show_product_detail" style="display: none">Large modal</button>
                   </div>
                 </div>
               </div>
@@ -363,6 +364,90 @@
           </div>
         </div>
         <!-- /page content -->
+
+
+
+
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">修改商品信息</h4>
+              </div>
+              <div class="modal-body">
+
+                <form class="form-horizontal form-label-left" id="form_update_product" onsubmit="return false;">
+
+
+
+
+                  <input type="hidden" name="id" value="">
+                  <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_sku">Sku <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input id="e_sku" type="" class="form-control col-md-7 col-xs-12" name="sku" placeholder="SKU" required="required" type="text" readonly="readonly">
+                      <span style="color:brown;display: none" id="update_product_sku_exist_flag">Sku已经存在</span>
+                    </div>
+                  </div>
+
+                  <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_name">名称 <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input id="e_name"  type=""   class="form-control col-md-7 col-xs-12" name="name" placeholder="Name" required="required" type="text">
+                    </div>
+                  </div>
+
+
+                  <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_brand">品牌 <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input id="e_brand" type="" class="form-control col-md-7 col-xs-12" name="brand" placeholder="Brand" required="required" type="text">
+                    </div>
+                  </div>
+
+                  <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_inventory">库存 <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input id="e_inventory"  class="form-control col-md-7 col-xs-12" name="inventory" placeholder="inventory" required="required" type="number" value="1">
+                    </div>
+                  </div>
+
+
+                  <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="a_description">描述
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea id="e_description"  name="description" class="form-control col-md-7 col-xs-12"></textarea>
+                    </div>
+                  </div>
+
+                  <!--<div class="ln_solid"></div>-->
+                  <div class="form-group" style="display: none">
+                    <div class="col-md-6 col-md-offset-3">
+                      <button type="reset" class="btn btn-primary" id="edit_product_cancel_form">Cancel</button>
+                      <button id="edit_product_submit" type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                  </div>
+                </form>
+
+
+                 </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close_update">取消</button>
+                <button type="button" class="btn btn-primary" id="update_product_button">保存</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
 
         <!-- footer content -->
         <footer>
