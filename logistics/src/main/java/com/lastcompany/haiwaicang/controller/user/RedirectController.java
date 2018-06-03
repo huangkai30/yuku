@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -15,13 +17,43 @@ public class RedirectController {
 //		return "/production/index";
 //	}
 
-//	@RequestMapping(value="/member/resetpassword",method=RequestMethod.GET)
-//	public String resetpassword(HttpSession session){
-//		return "/member/resetpassword.html";
+//	@RequestMapping(value="/",method=RequestMethod.GET)
+//	public String resetpassword(HttpSession session, HttpServletRequest request, HttpServletResponse response){
+//		//return "/login.html";
+//		//response.setContentType("text/html; charset=utf-8");
+//
+//		try {
+//			//response.sendRedirect(request.getContextPath()+"/login.html");//返回登录页
+//			response.sendRedirect("/login.html");
+//		}
+//		catch (Exception e)
+//		{}
+//
+//
+//		return "";
+//	}
+
+//	@RequestMapping(value = "/",method=RequestMethod.GET)
+//	public String cs(HttpSession session,HttpServletRequest req, HttpServletResponse resp) {
+//
+//		//return "index.html";
+//		try{
+//		//	resp.sendRedirect("http://baidu.com/downloadRequestElecCont.action?contNo="+1);
+//		}
+//		catch (Exception e)
+//		{
+//
+//		}
+//		return "/login.html";
+//
 //	}
 
 
 
+	@RequestMapping(value="/",method=RequestMethod.GET)
+	public String login(HttpSession session){
+		return "/index.html";
+	}
 	@RequestMapping(value="/401",method=RequestMethod.GET)
 	public String to401(HttpSession session){
 		return "/401";

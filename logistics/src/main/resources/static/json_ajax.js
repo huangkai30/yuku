@@ -203,3 +203,18 @@ function request_arg(strParame) {
     }
     return args[strParame];
 }
+
+
+
+function logout_user() {
+    var data={};
+    ajax("/user/logout",data,logout_return,true,"get");
+}
+
+function logout_return(result) {
+    if(result.msgCode==200)
+    {
+        window.location.href="/login.html";
+    }
+
+}

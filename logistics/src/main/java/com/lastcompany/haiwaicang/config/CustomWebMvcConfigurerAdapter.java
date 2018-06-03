@@ -3,6 +3,7 @@ package com.lastcompany.haiwaicang.config;
 //import com.lastcompany.haiwaicang.interceptor.HouseLoginInterceptor;
 import com.lastcompany.haiwaicang.interceptor.UserLoginInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
@@ -111,5 +112,11 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/public/");
         super.addResourceHandlers(registry);
     }
+
+
+
+
+
+
 
 }

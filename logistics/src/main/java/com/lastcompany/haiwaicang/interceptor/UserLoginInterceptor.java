@@ -33,7 +33,7 @@ public class UserLoginInterceptor extends HandlerInterceptorAdapter {
 //			response.
 			response.setContentType("application/json; charset=utf-8");
 
-			response.sendRedirect(request.getContextPath()+"/member/login?backURL="+URI);//返回登录页
+			response.sendRedirect(request.getContextPath()+"/login.html?backURL="+URI);//返回登录页
 			//response.sendRedirect(result.toString());
 
 

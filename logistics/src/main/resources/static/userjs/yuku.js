@@ -607,7 +607,7 @@ function init_validator_defined () {
 
 function add_product() {
     var data=getEelementData("#form_add_product");
-    if(isNaN(parseFloat(data.inventory))||parseFloat(data.inventory<0))
+    if(isNaN(parseFloat(data.inventory))||parseFloat(data.inventory)<0)
     {
         alert("库存不能小于0.");
         return false;
@@ -620,7 +620,7 @@ function add_product() {
 
 function update_product() {
     var data=getEelementData("#form_update_product");
-    if(isNaN(parseFloat(data.inventory))||parseFloat(data.inventory<0))
+    if(isNaN(parseFloat(data.inventory))||parseFloat(data.inventory)<0)
     {
         alert("库存不能小于0.");
         return false;
@@ -642,6 +642,7 @@ function succ_fun_add_product(result) {
         {
             $("#search_click").click();
             alert("保存成功");
+            clearInputData("#form_add_product");
         }
         else
         {
